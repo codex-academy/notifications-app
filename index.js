@@ -16,6 +16,14 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+app.use(function(req, res, next) {
+	// check if the current user is logged in
+	console.log('in middleware...')
+	next();
+});
+
+
+
 let counter = 0;
 
 app.get('/', function(req, res) {
@@ -28,6 +36,46 @@ app.post('/count', function(req, res) {
 	counter++;
 	res.redirect('/')
 });
+
+
+// we use global state to store data
+
+const reminders = [];
+
+app.post('/reminder', function(req, res){
+
+	console.log(req.body);
+
+	reminders.push(req.body);
+
+	res.redirect('/reminder')
+
+});
+
+app.get('/reminder', function(req, res){
+
+	res.render('reminder', {
+		reminders
+	});
+
+});
+
+app.get('/reminder/:dayCount/days', function(req, res){
+
+	// find me all the reminders for the current Day count
+	const filteredReminders = reminders.filter(function(reminder){
+		return reminder.dayCount == Number(req.params.dayCount)
+	})
+
+	res.render('reminder', {
+		reminders : filteredReminders
+	});
+	
+});
+
+
+
+
 
 
 // start  the server and start listening for HTTP request on the PORT number specified...

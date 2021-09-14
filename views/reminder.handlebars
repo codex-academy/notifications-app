@@ -1,0 +1,45 @@
+<div>
+
+	<div>
+		{{count}}
+	</div>
+
+
+	<form action="/reminder" method="POST">
+
+		<div>
+			<input type="text" name="firstName" placeholder="Enter first name">
+		</div>
+		<div>
+			<input type="text" name="bookCount" placeholder="Enter the number of books">
+		</div>
+		<div>
+			<input type="text" name="dayCount" placeholder="Enter the # of days">
+		</div>
+
+		<div>
+			<input type="submit" value="Add reminder">
+		</div>
+	</form>
+
+</div>
+
+<div>
+	<a href="/reminder">Reminders</a>
+</div>
+
+
+{{#each reminders}}
+<div class="reminder">
+
+	Dear {{firstName}},
+	<br>
+	<br>
+	The <strong>{{bookCount}}</strong> books you took out at the library is due in <strong>{{dayCount}}</strong> days.
+	<br>
+	<br>
+
+	Please return these books to us in the next <a href="/reminder/{{dayCount}}/days">{{dayCount}} days</a> .
+
+</div>
+{{/each}}
