@@ -27,9 +27,7 @@ app.use(function(req, res, next) {
 let counter = 0;
 
 app.get('/', function(req, res) {
-	res.render('index', {
-		counter
-	});
+	res.redirect('/reminder');
 });
 
 app.post('/count', function(req, res) {
@@ -70,7 +68,7 @@ app.get('/reminder/:dayCount/days', function(req, res){
 	res.render('reminder', {
 		reminders : filteredReminders
 	});
-	
+
 });
 
 
