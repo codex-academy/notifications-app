@@ -35,11 +35,15 @@
 	Dear {{firstName}},
 	<br>
 	<br>
-	The <strong>{{bookCount}}</strong> books you took out at the library is due in <strong>{{dayCount}}</strong> days.
+	The <strong>{{bookCount}}</strong> book(s) you took out at the library is due in <strong>{{dayCount}}</strong> day(s).
 	<br>
 	<br>
 
+
+	{{#if notLate}}
 	Please return these books to us in the next <a href="/reminder/{{dayCount}}/days">{{dayCount}} days</a> .
-
+	{{else}}
+	<span class="late" > Please return your books <strong>urgently</strong></span>
+	{{/if}}
 </div>
 {{/each}}

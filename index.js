@@ -42,15 +42,20 @@ const reminders = [];
 
 app.post('/reminder', function(req, res){
 
-	console.log(req.body);
+	// console.log(req.body);
 
-	reminders.push(req.body);
+	const reminder = req.body;
+	reminder.notLate = Number(reminder.dayCount) > 0;
+	reminders.push(reminder);
+
+	// console.log(reminder);
 
 	res.redirect('/reminder')
 
 });
 
 app.get('/reminder', function(req, res){
+
 
 	res.render('reminder', {
 		reminders
