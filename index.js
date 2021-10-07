@@ -19,11 +19,11 @@ app.engine('handlebars', exphbs({
 
 app.set('view engine', 'handlebars');
 
-// app.use(function(req, res, next) {
-// 	// check if the current user is logged in
-// 	console.log('in middleware...')
-// 	next();
-// });
+app.use(function(req, res, next) {
+	// check if the current user is logged in
+	console.log(req.headers);
+	next();
+});
 
 app.get('/', function(req, res) {
 	res.render('index', {
@@ -44,8 +44,22 @@ const reminders = [];
 app.post('/reminder', function(req, res){
 
 	const reminder = req.body;
-	reminder.notLate = Number(reminder.dayCount) > 0;
-	reminders.push(reminder);
+
+	// read more about destructoring here - https://exploringjs.com/impatient-js/ch_destructuring.html
+
+	const {firstName, dayCount, bookCount} = req.body;
+
+	if (!firstName && !dayCount ){
+		// nothing is added
+		return res.redirect('/');
+	}
+
+	reminder.notLate = Number(dayCount) > 0;
+	reminders.push({
+		firstName, 
+		dayCount, 
+		bookCount
+	});
 
 	res.redirect('/')
 
