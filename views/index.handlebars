@@ -1,15 +1,56 @@
-<h1>Counter Index</h1>
+<div class="section" >
 
+	<h2>Create a reminder</h2> 
+
+	<form action="/reminder" method="POST">
+
+		<div>
+			<label for="">First name:</label>
+			<input type="text" name="firstName" placeholder="Enter first name">
+		</div>
+		<div>
+			<label for="">Book count:</label>
+			<input type="text" name="bookCount" placeholder="Enter the number of books">
+		</div>
+		<div>
+			<label for="">Days due in:</label>
+
+			<input type="text" name="dayCount" placeholder="Enter the # of days">
+		</div>
+
+		<div>
+			<input type="submit" class="bigger-button" value="Add reminder">
+		</div>
+	</form>
+
+</div>
 
 <div>
-    Start here
+	<h2>Reminders</h2>
 
-    <form action="/count" method="post">
-        <div class="counter" >
-            {{counter}}
-        </div>    
-        <input type="submit" value="Press button to count">
-    
-    </form>
 
+{{#each reminders}}
+<div class="section">
+
+	Dear {{firstName}},
+	<br><br>
+	The <strong>{{bookCount}}</strong> book(s) you took out at the library is due in <strong>{{dayCount}}</strong> day(s).
+	<br><br>
+
+	{{#if notLate}}
+	Please return these books to us in the next <a href="/reminder/{{dayCount}}/days">{{dayCount}} days</a> .
+	{{else}}
+	<span class="late" > Please return your books <strong>urgently</strong></span>
+	{{/if}}
+
+	<div class="mt-1" >
+			<a href="/edit/1">Edit reminder</a>
+	</div>
+	<div class="return-book mt-1" >
+		<form method="POST" action="/delete" >
+			<input type="submit" class="small-button" value="Return book">
+		</form>
+	</div>
+</div>
+{{/each}}
 </div>

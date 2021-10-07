@@ -12,22 +12,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
 // add more middleware to allow for templating support
+app.engine('handlebars', exphbs({
+    layoutsDir : './views/layouts'
+}));
 
-app.engine('handlebars', exphbs());
+
 app.set('view engine', 'handlebars');
 
-app.use(function(req, res, next) {
-	// check if the current user is logged in
-	console.log('in middleware...')
-	next();
-});
-
-
-
-let counter = 0;
+// app.use(function(req, res, next) {
+// 	// check if the current user is logged in
+// 	console.log('in middleware...')
+// 	next();
+// });
 
 app.get('/', function(req, res) {
-	res.redirect('/reminder');
+	res.render('index', {
+		reminders
+	});
 });
 
 app.post('/count', function(req, res) {
@@ -42,26 +43,14 @@ const reminders = [];
 
 app.post('/reminder', function(req, res){
 
-	// console.log(req.body);
-
 	const reminder = req.body;
 	reminder.notLate = Number(reminder.dayCount) > 0;
 	reminders.push(reminder);
 
-	// console.log(reminder);
-
-	res.redirect('/reminder')
+	res.redirect('/')
 
 });
 
-app.get('/reminder', function(req, res){
-
-
-	res.render('reminder', {
-		reminders
-	});
-
-});
 
 app.get('/reminder/:dayCount/days', function(req, res){
 
@@ -76,10 +65,9 @@ app.get('/reminder/:dayCount/days', function(req, res){
 
 });
 
-
-
-
-
+app.get('/edit/:id', function(req, res){
+	res.render("edit");
+});
 
 // start  the server and start listening for HTTP request on the PORT number specified...
 app.listen(PORT, function() {
