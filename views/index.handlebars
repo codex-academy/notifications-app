@@ -29,25 +29,25 @@
 	<h2>Reminders</h2>
 
 
-{{#each reminders}}
-<div class="section">
+{{#each notifications}}
+<div class="section mt-1">
 
-	Dear {{firstName}},
+	Dear {{first_name}},
 	<br><br>
-	The <strong>{{bookCount}}</strong> book(s) you took out at the library is due in <strong>{{dayCount}}</strong> day(s).
+	The <strong>{{book_count}}</strong> book(s) you took out at the library is due in <strong>{{days_due_in}}</strong> day(s).
 	<br><br>
 
-	{{#if notLate}}
-	Please return these books to us in the next <a href="/reminder/{{dayCount}}/days">{{dayCount}} days</a> .
+	{{!-- {{#if notLate}}
+	Please return these books to us in the next <a href="/reminder/{{days_due_in}}/days">{{days_due_in}} days</a> .
 	{{else}}
 	<span class="late" > Please return your books <strong>urgently</strong></span>
-	{{/if}}
+	{{/if}} --}}
 
 	<div class="mt-1" >
-			<a href="/edit/1">Edit reminder</a>
+			<a href="/edit/{{id}}">Edit reminder</a>
 	</div>
 	<div class="return-book mt-1" >
-		<form method="POST" action="/delete" >
+		<form method="POST" action="/return/{{id}}" >
 			<input type="submit" class="small-button" value="Return book">
 		</form>
 	</div>
